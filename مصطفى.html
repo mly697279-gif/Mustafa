@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دعوة زفاف مصطفى ورسل - منصة أثر</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #FAF8F5;
+            color: #2D2522;
+            overflow-x: hidden;
+        }
+
+        .font-serif-arabic { font-family: 'Amiri', serif; }
+        .font-eng-serif { font-family: 'Playfair Display', serif; }
+
+        .color-primary { color: #5C1D24; }
+        .bg-primary { background-color: #5C1D24; }
+        .color-gold { color: #C5A059; }
+        .bg-gold { background-color: #C5A059; }
+        .border-gold { border-color: #C5A059; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .paper-card {
+            background-color: #FFFFFF;
+            border: 1px solid rgba(197, 160, 89, 0.15);
+            box-shadow: 0 10px 30px -10px rgba(92, 29, 36, 0.05);
+        }
+
+        .countdown-box {
+            background-color: #FAF8F5;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .wish-bubble {
+            background: linear-gradient(135deg, #FFFFFF 0%, #FCFAF7 100%);
+            border-right: 3px solid #C5A059;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        @media (min-width: 640px) {
+            .mobile-frame {
+                max-width: 480px;
+                margin: 0 auto;
+                box-shadow: 0 0 40px rgba(0,0,0,0.05);
+                border-left: 1px solid rgba(0,0,0,0.03);
+                border-right: 1px solid rgba(0,0,0,0.03);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen relative flex flex-col justify-between">
+
+    <audio id="zaffahAudio" loop preload="auto">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="mobile-frame bg-[#FAF8F5] min-h-screen flex flex-col justify-between relative shadow-2xl">
+
+        <div id="coverScreen" class="absolute inset-0 z-50 bg-[#FAF8F5] flex flex-col items-center justify-between p-8 text-center transition-all duration-1000">
+            <div class="w-16 h-16 opacity-30 mt-6">
+                <svg viewBox="0 0 100 100" class="fill-[#5C1D24]">
+                    <path d="M50 0 C60 20 80 40 100 50 C80 60 60 80 50 100 C40 80 20 60 0 50 C20 40 40 20 50 0 Z"></path>
+                </svg>
+            </div>
+
+            <div class="relative w-56 h-56 flex items-center justify-center my-auto">
+                <svg viewBox="0 0 200 200" class="absolute w-full h-full text-[#C5A059] opacity-75 animate-spin" style="animation-duration: 40s;">
+                    <path d="M100,20 C144.18,20 180,55.82 180,100 C180,144.18 144.18,180 100,180 C55.82,180 20,144.18 20,100" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4,4"></path>
+                </svg>
+                <div class="z-10 flex flex-col items-center gap-1">
+                    <span class="font-serif-arabic text-5xl font-bold color-primary">م & ر</span>
+                    <span class="text-[10px] uppercase tracking-[0.3em] text-stone-400 mt-2 font-eng-serif">Mustafa & Rusul</span>
+                </div>
+            </div>
+
+            <div class="w-full space-y-6 mb-8">
+                <div class="space-y-2">
+                    <p class="text-[10px] tracking-[0.25em] text-stone-500 uppercase">دعوة زواج إلكترونية</p>
+                    <h1 class="text-3xl font-serif-arabic font-bold color-primary">مصطفى & رسل</h1>
+                </div>
+                <div class="w-12 h-[1px] bg-[#C5A059]/40 mx-auto"></div>
+                
+                <button onclick="openAthrInvitation()" class="mx-auto w-40 py-3.5 bg-primary text-stone-100 rounded-full text-xs font-bold tracking-widest shadow-lg shadow-[#5C1D24]/10 hover:bg-[#43141a] transition-all flex items-center justify-center gap-2 animate-bounce">
+                    <i data-lucide="heart" class="w-3.5 h-3.5 fill-current text-white"></i>
+                    فتح الدعوة
+                </button>
+            </div>
+        </div>
+
+        <main id="mainInvitation" class="hidden flex-col gap-10 px-6 py-12 relative z-20">
+            
+            <button id="floatingMusicBtn" onclick="toggleZaffahMusic()" class="fixed top-6 left-6 z-40 p-3 rounded-full bg-white/95 border border-[#C5A059]/30 text-[#C5A059] shadow-lg flex items-center justify-center">
+                <i data-lucide="music" id="musicIcon" class="w-4 h-4 text-[#C5A059]"></i>
+            </button>
+
+            <section class="reveal text-center space-y-6 py-6">
+                <p class="color-gold text-xs tracking-[0.2em]">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+                <div class="relative max-w-xs mx-auto py-2">
+                    <p class="font-serif-arabic text-md md:text-lg leading-relaxed text-stone-700 italic">
+                        "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"
+                    </p>
+                    <div class="w-16 h-[1.5px] bg-gradient-to-r from-transparent via-[#C5A059] to-transparent mx-auto mt-4"></div>
+                </div>
+            </section>
+
+            <section class="reveal paper-card rounded-3xl p-8 text-center space-y-6 relative overflow-hidden">
+                <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent"></div>
+                <p class="text-[10px] uppercase tracking-[0.25em] text-stone-400">يَسُرُّنَا دَعْوَتُكُمْ لِحُضُورِ حَفْلِنَا</p>
+                <div class="space-y-2">
+                    <p class="text-stone-600 text-xs">تتشرف عائلتا العروسين بدعوتكم لمشاركتنا فرحة العمر بمناسبة زفاف نجليهما</p>
+                    <div class="py-4">
+                        <h2 class="text-4xl font-serif-arabic font-bold color-primary">مصطفى & رسل</h2>
+                    </div>
+                </div>
+                <p class="text-stone-500 text-[11px] leading-relaxed max-w-xs mx-auto">
+                    تكتمل بهجتنا ومسرتنا بحضوركم البهي وتأثير خطاكم المباركة في ليلتنا المنتظرة.
+                </p>
+            </section>
+
+            <section class="reveal grid grid-cols-1 gap-4">
+                <div class="paper-card rounded-2xl p-6 flex items-center gap-4 text-right">
+                    <div class="w-12 h-12 rounded-full bg-[#FAF8F5] border border-[#C5A059]/20 flex items-center justify-center text-[#5C1D24]">
+                        <i data-lucide="calendar" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-xs color-primary">تاريخ ليلة العمر</h4>
+                        <p class="text-[11px] text-stone-600 mt-0.5">يوم الخميس، 15 أكتوبر 2026</p>
+                        <p class="text-[9px] text-stone-400">ابتداءً من الساعة السابعة مساءً (7:00م)</p>
+                    </div>
+                </div>
+
+                <div class="paper-card rounded-2xl p-6 flex items-center gap-4 text-right">
+                    <div class="w-12 h-12 rounded-full bg-[#FAF8F5] border border-[#C5A059]/20 flex items-center justify-center text-[#5C1D24]">
+                        <i data-lucide="map-pin" class="w-5 h-5"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <h4 class="font-bold text-xs color-primary">مكان ومقر الحفل</h4>
+                        <p class="text-[11px] text-stone-600 mt-0.5">قاعة روتانا الملكية الفخمة للأعراس</p>
+                        <p class="text-[9px] text-stone-400">العراق، محافظة واسط، مدينة الكوت</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="reveal text-center space-y-4">
+                <span class="text-[10px] text-stone-400 tracking-widest">الوقت المتبقي لليلتنا السعيدة</span>
+                <div class="grid grid-cols-4 gap-2 max-w-sm mx-auto">
+                    <div class="countdown-box rounded-xl p-3 flex flex-col justify-center">
+                        <span id="days" class="text-2xl font-bold color-primary font-mono">00</span>
+                        <span class="text-[9px] text-stone-400 mt-1">يوم</span>
+                    </div>
+                    <div class="countdown-box rounded-xl p-3 flex flex-col justify-center">
+                        <span id="hours" class="text-2xl font-bold color-primary font-mono">00</span>
+                        <span class="text-[9px] text-stone-400 mt-1">ساعة</span>
+                    </div>
+                    <div class="countdown-box rounded-xl p-3 flex flex-col justify-center">
+                        <span id="minutes" class="text-2xl font-bold color-primary font-mono">00</span>
+                        <span class="text-[9px] text-stone-400 mt-1">دقيقة</span>
+                    </div>
+                    <div class="countdown-box rounded-xl p-3 flex flex-col justify-center">
+                        <span id="seconds" class="text-2xl font-bold color-primary font-mono">00</span>
+                        <span class="text-[9px] text-stone-400 mt-1">ثانية</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="reveal paper-card rounded-3xl p-6 text-center space-y-4">
+                <div class="w-10 h-10 rounded-full bg-stone-50 border border-[#C5A059]/20 flex items-center justify-center text-[#C5A059] mx-auto">
+                    <i data-lucide="navigation" class="w-5 h-5"></i>
+                </div>
+                <h3 class="font-bold text-xs color-primary">تحديد موقع قاعة روتانا (GPS)</h3>
+                <a href="https://maps.google.com" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full text-xs font-bold shadow-md hover:bg-[#43141a] transition-all">
+                    <i data-lucide="map" class="w-3.5 h-3.5"></i>
+                    عرض الاتجاهات على الخريطة
+                </a>
+            </section>
+
+            <section class="reveal paper-card rounded-3xl p-6 text-center space-y-6">
+                <div class="grid grid-cols-2 gap-4 text-center">
+                    <div class="p-4 flex flex-col items-center gap-2">
+                        <div class="w-10 h-10 rounded-full bg-[#FAF8F5] border border-[#C5A059]/15 flex items-center justify-center text-stone-500">
+                            <i data-lucide="baby" class="w-4.5 h-4.5"></i>
+                        </div>
+                        <h5 class="text-xs font-semibold text-stone-700">جنة الأطفال بيوتهم</h5>
+                    </div>
+                    <div class="p-4 flex flex-col items-center gap-2">
+                        <div class="w-10 h-10 rounded-full bg-[#FAF8F5] border border-[#C5A059]/15 flex items-center justify-center text-stone-500">
+                            <i data-lucide="camera-off" class="w-4.5 h-4.5"></i>
+                        </div>
+                        <h5 class="text-xs font-semibold text-stone-700">الرجاء عدم التصوير</h5>
+                    </div>
+                </div>
+            </section>
+
+            <section class="reveal paper-card rounded-3xl p-6 md:p-8 space-y-6 relative">
+                <div class="text-center space-y-2">
+                    <h3 class="font-bold text-sm color-primary">تأكيد حضوركم يزيدنا سروراً</h3>
+                    <p class="text-[11px] text-stone-500 leading-relaxed">يرجى تسجيل موقفكم من الحضور لتنظيم وترتيب كرم استقبالكم.</p>
+                </div>
+
+                <form onsubmit="sendRSVPToWhatsApp(event)" class="space-y-4 text-right">
+                    <div>
+                        <label for="rsvpName" class="block text-xs font-semibold text-stone-600 mb-1.5">الاسم الكريم:</label>
+                        <input type="text" id="rsvpName" required placeholder="يرجى كتابة اسمكم الكريم" class="w-full bg-[#FAF8F5] border border-[#C5A059]/20 rounded-xl px-4 py-3 text-xs text-stone-800 focus:outline-none focus:border-[#C5A059] transition-all">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="rsvpStatus" class="block text-xs font-semibold text-stone-600 mb-1.5">هل ستشرفنا؟</label>
+                            <select id="rsvpStatus" onchange="toggleCompanionSelector(this.value)" class="w-full bg-[#FAF8F5] border border-[#C5A059]/20 rounded-xl px-3 py-3 text-xs text-stone-800 focus:outline-none focus:border-[#C5A059] transition-all">
+                                <option value="yes">نعم، بكل سرور سأحضر</option>
+                                <option value="no">أعتذر، لن أتمكن من الحضور</option>
+                            </select>
+                        </div>
+                        <div id="compContainer">
+                            <label for="rsvpCompanions" class="block text-xs font-semibold text-stone-600 mb-1.5">عدد المرافقين:</label>
+                            <select id="rsvpCompanions" class="w-full bg-[#FAF8F5] border border-[#C5A059]/20 rounded-xl px-3 py-3 text-xs text-stone-800 focus:outline-none focus:border-[#C5A059] transition-all">
+                                <option value="بدون مرافقين">بدون مرافقين</option>
+                                <option value="برفقة شخص واحد">مرافق واحد</option>
+                                <option value="برفقة شخصين">مرافقين اثنين</option>
+                                <option value="برفقة عائلتي">أكثر من اثنين</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-3.5 bg-primary text-white rounded-xl text-xs font-bold tracking-wide shadow-md hover:bg-[#43141a] transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="send" class="w-4 h-4 text-white"></i>
+                        إرسال تأكيد الحضور عبر الواتساب
+                    </button>
+                </form>
+            </section>
+
+            <section class="reveal paper-card rounded-3xl p-6 space-y-6">
+                <div class="text-center space-y-2">
+                    <h3 class="font-bold text-sm color-primary">شارك العروسين تهنئتك الجميلة</h3>
+                </div>
+                <div class="space-y-3">
+                    <input type="text" id="wishSenderName" placeholder="الاسم الكريم" class="w-full bg-[#FAF8F5] border border-[#C5A059]/20 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-[#C5A059]">
+                    <textarea id="wishContent" rows="3" placeholder="اكتب تهنئتك الدافئة هنا..." class="w-full bg-[#FAF8F5] border border-[#C5A059]/20 rounded-xl p-3 text-xs resize-none focus:outline-none focus:border-[#C5A059]"></textarea>
+                    <button onclick="postWish()" class="w-full py-3.5 bg-[#C5A059] text-stone-950 font-bold rounded-xl text-xs">نشر التهنئة على الحائط</button>
+                </div>
+                <div id="wishesContainer" class="space-y-3 max-h-60 overflow-y-auto"></div>
+            </section>
+
+            <footer class="text-center space-y-3 pt-6 border-t border-[#C5A059]/10">
+                <span class="font-serif-arabic text-md color-gold block">ودامت دياركم مكللة بالأفراح والمسرات</span>
+                <p class="text-[9px] text-stone-400 font-eng-serif">Mustafa & Rusul • 2026</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        // تشغيل الموسيقى الحقيقية عند فتح الدعوة
+        const audio = document.getElementById('zaffahAudio');
+        let isMusicPlaying = false;
+
+        function openAthrInvitation() {
+            const cover = document.getElementById('coverScreen');
+            const main = document.getElementById('mainInvitation');
+
+            cover.style.opacity = "0";
+            cover.style.transform = "scale(1.05) translateY(-20px)";
+
+            setTimeout(() => {
+                cover.classList.add('hidden');
+                main.classList.remove('hidden');
+                main.classList.add('flex');
+                
+                startCountdownTimer();
+                reveal();
+
+                // تشغيل الصوت فوراً عند نقر المستخدم للزر
+                audio.play().then(() => {
+                    isMusicPlaying = true;
+                    updateMusicButtonState(true);
+                }).catch(err => console.log("خطأ في تشغيل الصوت: ", err));
+
+            }, 600);
+        }
+
+        function toggleZaffahMusic() {
+            if (isMusicPlaying) {
+                audio.pause();
+                isMusicPlaying = false;
+                updateMusicButtonState(false);
+            } else {
+                audio.play();
+                isMusicPlaying = true;
+                updateMusicButtonState(true);
+            }
+        }
+
+        function updateMusicButtonState(playing) {
+            const icon = document.getElementById('musicIcon');
+            const btn = document.getElementById('floatingMusicBtn');
+            if (playing) {
+                icon.setAttribute('data-lucide', 'pause');
+                btn.classList.add('bg-rose-500/10', 'text-rose-600');
+            } else {
+                icon.setAttribute('data-lucide', 'music');
+                btn.classList.remove('bg-rose-500/10', 'text-rose-600');
+            }
+            lucide.createIcons();
+        }
+
+        // العداد التنازلي لعام 2026
+        const targetDate = new Date("Oct 15, 2026 19:00:00").getTime();
+        function startCountdownTimer() {
+            setInterval(() => {
+                const now = new Date().getTime();
+                const diff = targetDate - now;
+                if (diff < 0) return;
+
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('days').innerText = String(d).padStart(2, '0');
+                document.getElementById('hours').innerText = String(h).padStart(2, '0');
+                document.getElementById('minutes').innerText = String(m).padStart(2, '0');
+                document.getElementById('seconds').innerText = String(s).padStart(2, '0');
+            }, 1000);
+        }
+
+        function toggleCompanionSelector(val) {
+            const comp = document.getElementById('compContainer');
+            comp.style.opacity = (val === 'no') ? "0.2" : "1";
+            comp.style.pointerEvents = (val === 'no') ? "none" : "auto";
+        }
+
+        // ======= محرك إرسال البيانات للواتساب الخاص بك =======
+        function sendRSVPToWhatsApp(e) {
+            e.preventDefault();
+            
+            // 🛑 ضع رقم هاتفك مع رمز الدولة هنا بدلاً من هذا الرقم الافتراضي لتصلك الرسائل عليه:
+            const myPhoneNumber = "9647700000000"; 
+
+            const name = document.getElementById('rsvpName').value.trim();
+            const status = document.getElementById('rsvpStatus').value;
+            const companions = document.getElementById('rsvpCompanions').value;
+
+            let message = "";
+            if (status === "yes") {
+                message = `مرحباً مصطفى ورسل، أنا العضو/ة الحاضر: *${name}* 🌸 \nيسعدني جداً تلبية دعوتكم الغالية وتأكيد حضوري لليلتكم المباركة *(${companions})*.`;
+            } else {
+                message = `مرحباً مصطفى ورسل، أنا: *${name}* ✨ \nأعتذر منكم بشدة ولن أتمكن من حضور حفل الزفاف لظروف خاصة. أتمنى لكم حياة زوجية سعيدة ومباركة ودامت دياركم بالأفراح!`;
+            }
+
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${myPhoneNumber}&text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // نظام التهاني
+        function postWish() {
+            const name = document.getElementById('wishSenderName').value.trim();
+            const content = document.getElementById('wishContent').value.trim();
+            if (!name || !content) return;
+
+            const container = document.getElementById('wishesContainer');
+            const card = document.createElement('div');
+            card.className = "wish-bubble p-4 rounded-2xl text-right";
+            card.innerHTML = `<p class="text-xs text-stone-700">"${content}"</p><span class="text-[10px] font-bold color-primary mt-1 block">${name}</span>`;
+            container.insertBefore(card, container.firstChild);
+
+            document.getElementById('wishSenderName').value = '';
+            document.getElementById('wishContent').value = '';
+        }
+    </script>
+</body>
+</html>
