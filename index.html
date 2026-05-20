@@ -66,7 +66,7 @@
 <body class="min-h-screen relative flex flex-col justify-between">
 
     <audio id="zaffahAudio" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
     </audio>
 
     <div class="mobile-frame bg-[#FAF8F5] min-h-screen flex flex-col justify-between relative shadow-2xl">
@@ -278,7 +278,6 @@
         }
         window.addEventListener("scroll", reveal);
 
-        // تشغيل الموسيقى الحقيقية عند فتح الدعوة
         const audio = document.getElementById('zaffahAudio');
         let isMusicPlaying = false;
 
@@ -297,7 +296,6 @@
                 startCountdownTimer();
                 reveal();
 
-                // تشغيل الصوت فوراً عند نقر المستخدم للزر
                 audio.play().then(() => {
                     isMusicPlaying = true;
                     updateMusicButtonState(true);
@@ -331,7 +329,6 @@
             lucide.createIcons();
         }
 
-        // العداد التنازلي لعام 2026
         const targetDate = new Date("Oct 15, 2026 19:00:00").getTime();
         function startCountdownTimer() {
             setInterval(() => {
@@ -357,12 +354,11 @@
             comp.style.pointerEvents = (val === 'no') ? "none" : "auto";
         }
 
-        // ======= محرك إرسال البيانات للواتساب الخاص بك =======
         function sendRSVPToWhatsApp(e) {
             e.preventDefault();
             
-            // 🛑 ضع رقم هاتفك مع رمز الدولة هنا بدلاً من هذا الرقم الافتراضي لتصلك الرسائل عليه:
-            const myPhoneNumber = "9647700000000"; 
+            // تم تحديث رقم الهاتف الخاص بك بنجاح هنا ✅
+            const myPhoneNumber = "9647723270010"; 
 
             const name = document.getElementById('rsvpName').value.trim();
             const status = document.getElementById('rsvpStatus').value;
@@ -379,7 +375,6 @@
             window.open(whatsappUrl, '_blank');
         }
 
-        // نظام التهاني
         function postWish() {
             const name = document.getElementById('wishSenderName').value.trim();
             const content = document.getElementById('wishContent').value.trim();
